@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LB1_codes", "LB1_codes.csproj", "{CB181073-DFF3-4A45-8B39-2380EDC58602}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cyphers", "..\Cyphers\Cyphers.csproj", "{25C9136A-5E39-4B8A-A60C-9AD769F864A2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCyphers", "..\TestCyphers\TestCyphers.csproj", "{069AA8CD-4619-4922-8BCB-42BBA981D667}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CB181073-DFF3-4A45-8B39-2380EDC58602}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB181073-DFF3-4A45-8B39-2380EDC58602}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB181073-DFF3-4A45-8B39-2380EDC58602}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB181073-DFF3-4A45-8B39-2380EDC58602}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25C9136A-5E39-4B8A-A60C-9AD769F864A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25C9136A-5E39-4B8A-A60C-9AD769F864A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25C9136A-5E39-4B8A-A60C-9AD769F864A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25C9136A-5E39-4B8A-A60C-9AD769F864A2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{069AA8CD-4619-4922-8BCB-42BBA981D667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{069AA8CD-4619-4922-8BCB-42BBA981D667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{069AA8CD-4619-4922-8BCB-42BBA981D667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{069AA8CD-4619-4922-8BCB-42BBA981D667}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3E274C09-D5A5-4453-8EC0-51E7EA417D21}
+	EndGlobalSection
+EndGlobal
