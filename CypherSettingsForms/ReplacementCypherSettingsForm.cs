@@ -16,7 +16,7 @@ namespace LB1_codes.CypherSettingsForms
         public ReplacementCypherSettingsForm()
         {
             InitializeComponent();
-            Order = Enumerable.Range((int)numericUpDown1.Minimum, (int)numericUpDown1.Value).ToList();
+            Order = new List<int>() { 1, 3, 2 };
             FillListBox(Order);
             this.listBox1.AllowDrop = true;
         }

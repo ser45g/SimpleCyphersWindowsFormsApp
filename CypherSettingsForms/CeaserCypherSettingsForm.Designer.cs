@@ -85,8 +85,10 @@
             Controls.Add(materialLabel1);
             Controls.Add(button2);
             Controls.Add(button1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "CeaserCypherSettingsForm";
-            Text = "CeaserCypherSettingsForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Настройка шифра Цезаря";
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
             PerformLayout();

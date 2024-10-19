@@ -46,7 +46,7 @@
             // button1
             // 
             button1.DialogResult = DialogResult.OK;
-            button1.Location = new Point(123, 194);
+            button1.Location = new Point(121, 79);
             button1.Name = "button1";
             button1.Size = new Size(174, 46);
             button1.TabIndex = 1;
@@ -57,11 +57,13 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(430, 252);
+            ClientSize = new Size(430, 151);
             Controls.Add(button1);
             Controls.Add(richTextBox1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "NoSettingsAvailableForm";
-            Text = "NoSettingsAvailableForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Нет доступных настроек";
             ResumeLayout(false);
         }
 

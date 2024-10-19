@@ -64,7 +64,7 @@
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(259, 27);
             numericUpDown1.TabIndex = 2;
-            numericUpDown1.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            numericUpDown1.Value = new decimal(new int[] { 3, 0, 0, 0 });
             numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
             // 
             // materialLabel1
@@ -102,8 +102,10 @@
             Controls.Add(numericUpDown1);
             Controls.Add(button2);
             Controls.Add(button1);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Name = "ReplacementCypherSettingsForm";
-            Text = "ReplacementCypherSettingsForm";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Настройки шифра перестановкой";
             FormClosing += ReplacementCypherSettingsForm_FormClosing;
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);

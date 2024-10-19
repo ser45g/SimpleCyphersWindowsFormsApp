@@ -1,5 +1,6 @@
 using Cyphers;
 using LB1_codes.CypherSettingsForms;
+using System.Collections.ObjectModel;
 using System.Windows.Forms;
 
 namespace LB1_codes
@@ -17,20 +18,24 @@ namespace LB1_codes
             public ICypher Cypher { get; set; }
         }
 
-        private ICypher _selectedCypher;
+        private string _selectedCypherName;
         private bool _doesOverwrite=false;
+        private Dictionary<string, ICypher> _cyphersDictionary; 
+        private ObservableCollection<string> _cyphersNames;
 
-        public List<CypherItem> _cyphers;
-
+        
         public Form1()
         {
             InitializeComponent();
-            _cyphers = new List<CypherItem>() {
-                new CypherItem("Шифр Цезаря",new CeaserCypher(3)) ,
-                new CypherItem("Инверсный шифр", new InverseCypher()),
-                new CypherItem("Шифр перестановкой", ReplacementCypher.Instantiate(1,3,2) )
+            _cyphersDictionary = new Dictionary<string, ICypher>()
+            {
+                { "Шифр Цезаря", new CeaserCypher(3) },
+                {"Инверсный шифр",new InverseCypher()},
+                {"Шифр перестановкой", ReplacementCypher.Instantiate(1,3,2)}
             };
-            cbCypherItemList.DataSource = _cyphers;
+
+            _cyphersNames = new ObservableCollection<string>(_cyphersDictionary.Keys);
+            cbCypherItemList.DataSource = _cyphersNames;
             cbCypherItemList.DisplayMember = "name";
 
             btnCypherDecypher.Text = "Зашифровать";
@@ -81,49 +86,41 @@ namespace LB1_codes
         {
             var comboBox = sender as ComboBox;
             if (comboBox == null) { return; }
-
-            _selectedCypher = _cyphers[comboBox.SelectedIndex].Cypher;
+            string selectedName = comboBox.SelectedItem.ToString();
+            _selectedCypherName = selectedName;
 
         }
 
         private void btnCypherDecypher_Click(object sender, EventArgs e)
         {
-            string result = (_isDecriptionMode == false) ? _selectedCypher.Encrypt(txbMessage.Text) : _selectedCypher.Decrypt(txbMessage.Text);
+            string result = (_isDecriptionMode == false) ? _cyphersDictionary[_selectedCypherName].Encrypt(txbMessage.Text) : _cyphersDictionary[_selectedCypherName].Decrypt(txbMessage.Text);
             txbMessage.Text = result;
         }
 
         private void pictureBoxSettings_Click(object sender, EventArgs e)
         {
-            if (_selectedCypher is InverseCypher)
+            var selectedCypher = _cyphersDictionary[_selectedCypherName];
+            if (selectedCypher is InverseCypher)
             {
                 NoSettingsAvailableForm noSettingsAvailableForm = new NoSettingsAvailableForm();
                 noSettingsAvailableForm.ShowDialog();
             }
-            if (_selectedCypher is CeaserCypher)
+            if (selectedCypher is CeaserCypher)
             {
                 CeaserCypherSettingsForm ceaserCypherSettingsForm = new CeaserCypherSettingsForm();
                 if (ceaserCypherSettingsForm.ShowDialog() == DialogResult.OK)
                 {
-                    CypherItem item = _cyphers.Find((el) => el.Cypher is CeaserCypher);
-                    if (item == null)
-                    {
-                        throw new Exception("No Ceaser Cypher Item in the _cypher list");
-                    }
-                    item.Cypher = new CeaserCypher(ceaserCypherSettingsForm.Shift);
+                    _cyphersDictionary[_selectedCypherName]= new CeaserCypher(ceaserCypherSettingsForm.Shift);
                 }
             }
 
-            if (_selectedCypher is ReplacementCypher)
+            if (selectedCypher is ReplacementCypher)
             {
                 ReplacementCypherSettingsForm replacementCypherSettingsForm = new ReplacementCypherSettingsForm();
                 if (replacementCypherSettingsForm.ShowDialog() == DialogResult.OK)
                 {
-                    CypherItem item = _cyphers.Find((el) => el.Cypher is ReplacementCypher);
-                    if (item == null)
-                    {
-                        throw new Exception("No Replacement Cypher Item in the _cypher list");
-                    }
-                    item.Cypher = ReplacementCypher.Instantiate(replacementCypherSettingsForm.Order.Cast<uint>().ToList());
+                    var order = replacementCypherSettingsForm.Order.Select(x=>Convert.ToUInt32(x));
+                    _cyphersDictionary[_selectedCypherName] = ReplacementCypher.Instantiate(order.ToList());
                 }
             }
         }
