@@ -54,6 +54,7 @@ namespace LB1_codes
             {
                 using (var reader = File.OpenText(openFileDialog.FileName))
                 {
+
                     txbMessage.Text = await reader.ReadToEndAsync();
                 }
             }
