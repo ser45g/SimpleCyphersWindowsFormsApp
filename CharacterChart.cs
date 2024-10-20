@@ -80,8 +80,6 @@ namespace LB1_codes
             columnSeries.Values = new ChartValues<int>(numberOfOccurencesNums);
             
             columnSeries.Title = "Исходное сообщение";
-            //columnSeries.ToolTip = new LiveCharts.Wpf.TooltipData
-            
             
             return columnSeries;
         }

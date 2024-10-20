@@ -60,7 +60,8 @@
             Controls.Add(cartesianChart2);
             Controls.Add(cartesianChart1);
             Name = "CharacterChart";
-            Text = "CharacterChart";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "График";
             ResumeLayout(false);
         }
 

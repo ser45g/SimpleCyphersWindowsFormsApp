@@ -7,16 +7,6 @@ namespace LB1_codes
 {
     public partial class Form1 : Form
     {
-        public class CypherItem
-        {
-            public CypherItem(string name, ICypher cypher)
-            {
-                Name = name;
-                Cypher = cypher;
-            }
-            public string Name { get; set; }
-            public ICypher Cypher { get; set; }
-        }
 
         private string _selectedCypherName;
         private bool _doesOverwrite = false;

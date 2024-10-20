@@ -357,7 +357,7 @@
             Controls.Add(panel1);
             Controls.Add(panel4);
             Name = "Form1";
-            Text = "Form1";
+            Text = "Простые методы крипотографии";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             panel2.ResumeLayout(false);
