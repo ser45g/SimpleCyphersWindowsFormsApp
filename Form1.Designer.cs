@@ -48,6 +48,8 @@
             richTextBox1 = new RichTextBox();
             label1 = new Label();
             btnCypherDecypher = new MaterialSkin.Controls.MaterialButton();
+            materialButton1 = new MaterialSkin.Controls.MaterialButton();
+            cbTypeOfChart = new ComboBox();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             panel3.SuspendLayout();
@@ -267,7 +269,7 @@
             richTextBox1.BackColor = SystemColors.Control;
             richTextBox1.BorderStyle = BorderStyle.None;
             richTextBox1.ForeColor = Color.Red;
-            richTextBox1.Location = new Point(36, 594);
+            richTextBox1.Location = new Point(49, 588);
             richTextBox1.Name = "richTextBox1";
             richTextBox1.ScrollBars = RichTextBoxScrollBars.None;
             richTextBox1.Size = new Size(437, 44);
@@ -279,7 +281,7 @@
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 18F, FontStyle.Bold, GraphicsUnit.Point);
             label1.ForeColor = Color.Red;
-            label1.Location = new Point(1, 585);
+            label1.Location = new Point(14, 588);
             label1.Name = "label1";
             label1.Size = new Size(29, 41);
             label1.TabIndex = 13;
@@ -294,7 +296,7 @@
             btnCypherDecypher.Depth = 0;
             btnCypherDecypher.HighEmphasis = true;
             btnCypherDecypher.Icon = null;
-            btnCypherDecypher.Location = new Point(691, 602);
+            btnCypherDecypher.Location = new Point(673, 650);
             btnCypherDecypher.Margin = new Padding(4, 6, 4, 6);
             btnCypherDecypher.MouseState = MaterialSkin.MouseState.HOVER;
             btnCypherDecypher.Name = "btnCypherDecypher";
@@ -307,11 +309,45 @@
             btnCypherDecypher.UseVisualStyleBackColor = true;
             btnCypherDecypher.Click += btnCypherDecypher_Click;
             // 
+            // materialButton1
+            // 
+            materialButton1.AccentTextColor = Color.FromArgb(255, 64, 129);
+            materialButton1.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            materialButton1.Density = MaterialSkin.Controls.MaterialButton.MaterialButtonDensity.Default;
+            materialButton1.Depth = 0;
+            materialButton1.HighEmphasis = true;
+            materialButton1.Icon = null;
+            materialButton1.Location = new Point(348, 650);
+            materialButton1.Margin = new Padding(4, 6, 4, 6);
+            materialButton1.MouseState = MaterialSkin.MouseState.HOVER;
+            materialButton1.Name = "materialButton1";
+            materialButton1.NoAccentTextColor = Color.FromArgb(63, 81, 181);
+            materialButton1.Size = new Size(91, 36);
+            materialButton1.TabIndex = 15;
+            materialButton1.Text = "Графики";
+            materialButton1.Type = MaterialSkin.Controls.MaterialButton.MaterialButtonType.Contained;
+            materialButton1.UseAccentColor = false;
+            materialButton1.UseVisualStyleBackColor = true;
+            materialButton1.Click += materialButton1_Click;
+            // 
+            // cbTypeOfChart
+            // 
+            cbTypeOfChart.DisplayMember = "Name";
+            cbTypeOfChart.FormattingEnabled = true;
+            cbTypeOfChart.Location = new Point(25, 650);
+            cbTypeOfChart.Name = "cbTypeOfChart";
+            cbTypeOfChart.Size = new Size(276, 28);
+            cbTypeOfChart.TabIndex = 14;
+            cbTypeOfChart.Text = "Выберите тип графика...";
+            cbTypeOfChart.SelectedIndexChanged += cbTypeOfChart_SelectedIndexChanged;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(835, 657);
+            ClientSize = new Size(835, 712);
+            Controls.Add(cbTypeOfChart);
+            Controls.Add(materialButton1);
             Controls.Add(btnCypherDecypher);
             Controls.Add(label1);
             Controls.Add(richTextBox1);
@@ -357,5 +393,7 @@
         private RichTextBox richTextBox1;
         private Label label1;
         private MaterialSkin.Controls.MaterialButton btnCypherDecypher;
+        private MaterialSkin.Controls.MaterialButton materialButton1;
+        private ComboBox cbTypeOfChart;
     }
 }
