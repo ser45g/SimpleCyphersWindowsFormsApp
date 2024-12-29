@@ -1,6 +1,7 @@
 using Cyphers;
 using LB1_codes.CypherSettingsForms;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Windows.Forms;
 
 namespace LB1_codes
@@ -15,9 +16,9 @@ namespace LB1_codes
         private ObservableCollection<string> _cyphersNames;
 
         private ObservableCollection<string> _chartTypesNames;
-        private Dictionary<string,ChartType> _chartTypesDictionary;
+        private Dictionary<string, ChartType> _chartTypesDictionary;
 
-        enum ChartType { InitialAndEncrypted, InitialAndDecrypted}
+        enum ChartType { InitialAndEncrypted, InitialAndDecrypted }
 
         private string InitialMessage;
         private string EncryptedMessage;
@@ -30,7 +31,9 @@ namespace LB1_codes
             {
                 { "Шифр Цезаря", new CeaserCypher(3) },
                 {"Инверсный шифр",new InverseCypher()},
-                {"Шифр перестановкой", ReplacementCypher.Instantiate(1,3,2)}
+                {"Шифр перестановкой", ReplacementCypher.Instantiate(1,3,2)},
+                {"Шифр Виженера",new RepeatingkeyVigenereCypher("key") },
+                {"Шифр Гаммированием",new StreamCypher("key") }
             };
 
             _cyphersNames = new ObservableCollection<string>(_cyphersDictionary.Keys);
@@ -40,12 +43,12 @@ namespace LB1_codes
                 { "Графики исходного и расшифрованного сообщений",ChartType.InitialAndEncrypted},
                 { "Графики исходного и дешифрованного сообщений",ChartType.InitialAndDecrypted}
             };
-            _chartTypesNames=new ObservableCollection<string>(_chartTypesDictionary.Keys);
-            cbTypeOfChart.DataSource= _chartTypesNames;
+            _chartTypesNames = new ObservableCollection<string>(_chartTypesDictionary.Keys);
+            cbTypeOfChart.DataSource = _chartTypesNames;
 
             btnCypherDecypher.Text = "Зашифровать";
             _selectedCypherName = cbCypherItemList.Items[0].ToString();
-            _selectedChartTypeName=cbTypeOfChart.Items[0].ToString();
+            _selectedChartTypeName = cbTypeOfChart.Items[0].ToString();
         }
         private bool _isDecriptionMode = false;
         private string? _selectedChartTypeName;
@@ -99,10 +102,30 @@ namespace LB1_codes
 
         private void btnCypherDecypher_Click(object sender, EventArgs e)
         {
-            InitialMessage=txbMessage.Text;
+            InitialMessage = txbMessage.Text;
+            string result=string.Empty;
+            if(_isDecriptionMode == false)
+            {
+                result=_cyphersDictionary[_selectedCypherName].Encrypt(txbMessage.Text);
 
-            string result = (_isDecriptionMode == false) ? _cyphersDictionary[_selectedCypherName].Encrypt(txbMessage.Text) : _cyphersDictionary[_selectedCypherName].Decrypt(txbMessage.Text);
+            }
+            else
+            {
+                if(EncryptedMessage != null)
+                {
+                    result= _cyphersDictionary[_selectedCypherName].Decrypt(EncryptedMessage);
+                }
+                else
+                {
+                    result=_cyphersDictionary[_selectedCypherName].Decrypt(txbMessage.Text);
+
+                }
+                
+            }
+           
+
             txbMessage.Text = result;
+          
             if (_isDecriptionMode)
             {
                 DecryptedMessage = result;
@@ -131,7 +154,21 @@ namespace LB1_codes
                     _cyphersDictionary[_selectedCypherName] = new CeaserCypher(ceaserCypherSettingsForm.Shift);
                 }
             }
-
+            if (selectedCypher is RepeatingkeyVigenereCypher ) {
+                SetKeySettingsForm setKeySettingsForm = new SetKeySettingsForm();
+                if (setKeySettingsForm.ShowDialog() == DialogResult.OK)
+                {
+                    _cyphersDictionary[_selectedCypherName]= new RepeatingkeyVigenereCypher(setKeySettingsForm.Key);
+                }
+            }
+            if (selectedCypher is StreamCypher)
+            {
+                SetKeySettingsForm setKeySettingsForm = new SetKeySettingsForm();
+                if (setKeySettingsForm.ShowDialog() == DialogResult.OK)
+                {
+                    _cyphersDictionary[_selectedCypherName] = new StreamCypher(setKeySettingsForm.Key);
+                }
+            }
             if (selectedCypher is ReplacementCypher)
             {
                 ReplacementCypherSettingsForm replacementCypherSettingsForm = new ReplacementCypherSettingsForm();
