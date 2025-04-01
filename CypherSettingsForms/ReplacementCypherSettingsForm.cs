@@ -12,11 +12,12 @@ namespace LB1_codes.CypherSettingsForms
 {
     public partial class ReplacementCypherSettingsForm : Form
     {
-        public List<int> Order;
-        public ReplacementCypherSettingsForm()
+        public List<int> Order { get; private set; }
+        public ReplacementCypherSettingsForm(IList<int> order)
         {
             InitializeComponent();
-            Order = new List<int>() { 1, 3, 2 };
+            Order = order.ToList();
+            this.numericUpDown1.Value = order.Count;
             FillListBox(Order);
             this.listBox1.AllowDrop = true;
         }

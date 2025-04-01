@@ -13,10 +13,12 @@ namespace LB1_codes.CypherSettingsForms
 {
     public partial class CeaserCypherSettingsForm : Form
     {
-        public ushort Shift { get; private set; } = 0;
-        public CeaserCypherSettingsForm()
+        public ushort Shift { get; private set; }
+        public CeaserCypherSettingsForm(ushort shift=0)
         {
             InitializeComponent();
+            Shift = shift;
+            numericUpDown1.Value=Shift;
         }   
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)

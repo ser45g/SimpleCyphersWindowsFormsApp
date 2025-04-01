@@ -29,11 +29,12 @@ namespace LB1_codes
             InitializeComponent();
             _cyphersDictionary = new Dictionary<string, ICypher>()
             {
-                { "Шифр Цезаря", new CeaserCypher(3) },
+                {"Шифр Цезаря", new CeaserCypher(3) },
                 {"Инверсный шифр",new InverseCypher()},
                 {"Шифр перестановкой", ReplacementCypher.Instantiate(1,3,2)},
                 {"Шифр Виженера",new RepeatingkeyVigenereCypher("key") },
-                {"Шифр Гаммированием",new StreamCypher("key") }
+                {"Шифр Гаммированием",new StreamCypher("key") },
+                {"Шифр блочной перестановки", new ColumnarTranspositionCypher("key",' ') }
             };
 
             _cyphersNames = new ObservableCollection<string>(_cyphersDictionary.Keys);
@@ -49,6 +50,7 @@ namespace LB1_codes
             btnCypherDecypher.Text = "Зашифровать";
             _selectedCypherName = cbCypherItemList.Items[0].ToString();
             _selectedChartTypeName = cbTypeOfChart.Items[0].ToString();
+
         }
         private bool _isDecriptionMode = false;
         private string? _selectedChartTypeName;
@@ -68,8 +70,7 @@ namespace LB1_codes
             {
                 using (var reader = File.OpenText(openFileDialog.FileName))
                 {
-
-                    txbMessage.Text = await reader.ReadToEndAsync();
+                    InitialMessage = await reader.ReadToEndAsync();
                 }
             }
         }
@@ -106,20 +107,12 @@ namespace LB1_codes
             string result=string.Empty;
             if(_isDecriptionMode == false)
             {
-                result=_cyphersDictionary[_selectedCypherName].Encrypt(txbMessage.Text);
+                result=_cyphersDictionary[_selectedCypherName].Encrypt(InitialMessage);
 
             }
             else
             {
-                if(EncryptedMessage != null)
-                {
-                    result= _cyphersDictionary[_selectedCypherName].Decrypt(EncryptedMessage);
-                }
-                else
-                {
-                    result=_cyphersDictionary[_selectedCypherName].Decrypt(txbMessage.Text);
-
-                }
+                result= _cyphersDictionary[_selectedCypherName].Decrypt(InitialMessage);
                 
             }
            
@@ -148,14 +141,27 @@ namespace LB1_codes
             }
             if (selectedCypher is CeaserCypher)
             {
-                CeaserCypherSettingsForm ceaserCypherSettingsForm = new CeaserCypherSettingsForm();
+                var ceaserCypher= _cyphersDictionary["Шифр Цезаря"] as CeaserCypher;
+                ushort shift = 0;
+                if(ceaserCypher==null)
+                    shift = 0;
+                else
+                    shift = ceaserCypher.Shift;
+
+                CeaserCypherSettingsForm ceaserCypherSettingsForm = new CeaserCypherSettingsForm(shift );
                 if (ceaserCypherSettingsForm.ShowDialog() == DialogResult.OK)
                 {
                     _cyphersDictionary[_selectedCypherName] = new CeaserCypher(ceaserCypherSettingsForm.Shift);
                 }
             }
             if (selectedCypher is RepeatingkeyVigenereCypher ) {
-                SetKeySettingsForm setKeySettingsForm = new SetKeySettingsForm();
+                var repeatingkeyVigenereCypher = _cyphersDictionary["Шифр Виженера"] as RepeatingkeyVigenereCypher;
+                string key = "";
+                if (repeatingkeyVigenereCypher == null)
+                    key = "key";
+                else
+                    key = repeatingkeyVigenereCypher.Key;
+                SetKeySettingsForm setKeySettingsForm = new SetKeySettingsForm(key);
                 if (setKeySettingsForm.ShowDialog() == DialogResult.OK)
                 {
                     _cyphersDictionary[_selectedCypherName]= new RepeatingkeyVigenereCypher(setKeySettingsForm.Key);
@@ -163,7 +169,14 @@ namespace LB1_codes
             }
             if (selectedCypher is StreamCypher)
             {
-                SetKeySettingsForm setKeySettingsForm = new SetKeySettingsForm();
+                
+                var streamCypher = _cyphersDictionary["Шифр Гаммированием"] as StreamCypher;
+                string key= "";
+                if (streamCypher == null)
+                    key="key";
+                else
+                    key = streamCypher.Key;
+                SetKeySettingsForm setKeySettingsForm = new SetKeySettingsForm(key);
                 if (setKeySettingsForm.ShowDialog() == DialogResult.OK)
                 {
                     _cyphersDictionary[_selectedCypherName] = new StreamCypher(setKeySettingsForm.Key);
@@ -171,11 +184,29 @@ namespace LB1_codes
             }
             if (selectedCypher is ReplacementCypher)
             {
-                ReplacementCypherSettingsForm replacementCypherSettingsForm = new ReplacementCypherSettingsForm();
+                var ceaserCypher = _cyphersDictionary["Шифр перестановкой"] as ReplacementCypher;
+                IList<int> order = new List<int>() { 1, 3, 2 };
+                if (ceaserCypher != null)
+                    order = ceaserCypher.Order;
+
+                ReplacementCypherSettingsForm replacementCypherSettingsForm = new ReplacementCypherSettingsForm(order);
                 if (replacementCypherSettingsForm.ShowDialog() == DialogResult.OK)
                 {
-                    var order = replacementCypherSettingsForm.Order.Select(x => Convert.ToUInt32(x));
-                    _cyphersDictionary[_selectedCypherName] = ReplacementCypher.Instantiate(order.ToList());
+                    var orderOfNumbers = replacementCypherSettingsForm.Order;
+                    _cyphersDictionary[_selectedCypherName] = ReplacementCypher.Instantiate(orderOfNumbers.ToList());
+                }
+            }
+            if (selectedCypher is ColumnarTranspositionCypher) {
+                var columnarTranspositionCypher = _cyphersDictionary["Шифр блочной перестановки"] as ColumnarTranspositionCypher;
+                string key = "";
+                if (columnarTranspositionCypher == null)
+                    key = "key";
+                else
+                    key = columnarTranspositionCypher.Key;
+                SetKeySettingsForm setKeySettingsForm = new SetKeySettingsForm(key);
+                if (setKeySettingsForm.ShowDialog() == DialogResult.OK)
+                {
+                    _cyphersDictionary[_selectedCypherName] = new ColumnarTranspositionCypher(setKeySettingsForm.Key,' ') ;
                 }
             }
         }

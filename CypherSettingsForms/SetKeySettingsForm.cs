@@ -12,19 +12,18 @@ namespace LB1_codes.CypherSettingsForms
 {
     public partial class SetKeySettingsForm : Form
     {
-        public string Key { get; private set; }
+        public string Key { get; private set; } = "key";
 
-        public SetKeySettingsForm()
+        public SetKeySettingsForm(string key)
         {
             InitializeComponent();
+            Key = key;
+            richTextBox1.Text = Key;
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if(string.IsNullOrEmpty(Key))
-            {
-                Key = "key";
-            }
+           
         }
 
         private void richTextBox1_TextChanged(object sender, EventArgs e)
